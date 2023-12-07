@@ -1,0 +1,22 @@
+{
+    "name": "nailfor/redis",
+    "description": "Eloquent like library for Redis",
+    "keywords": ["eloquent", "redis"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nailfor"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "nailfor\\Redis\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.1.0",
+        "predis/predis": "^2.0"
+    },
+    "minimum-stability": "dev"
+}
