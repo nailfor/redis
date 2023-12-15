@@ -4,7 +4,7 @@ namespace nailfor\Redis\Query\Commands;
 
 use nailfor\Redis\Query\QueryBuilder;
 
-class HSETInsert extends AbstractCommand
+class SETInsert extends AbstractCommand
 {
     public function getKeysCount()
     {
@@ -15,11 +15,9 @@ class HSETInsert extends AbstractCommand
     {
         return <<<LUA
             local cmd, key, results = redis.call, KEYS[1], {}
-            local values = cjson.decode(ARGV[1])
+            local value = ARGV[1]
 
-            for field,val in pairs(values) do
-                cmd("HSET", key, field, val)
-            end
+            cmd("set", key, value)
             
             return KEYS[1]
         LUA;

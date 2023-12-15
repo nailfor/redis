@@ -4,7 +4,7 @@ namespace nailfor\Redis\Query\Commands;
 
 use nailfor\Redis\Query\QueryBuilder;
 
-class HSETSelect extends AbstractCommand
+class HASHSelect extends AbstractCommand
 {
     public function getKeysCount()
     {

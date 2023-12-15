@@ -9,9 +9,11 @@ class Model extends BaseModel
 {
     protected $connection = 'redis';
 
-    protected const TYPE_HSET = 'HSET';
+    protected const TYPE_HASH = 'HASH';
 
-    protected const MODEL_TYPE = self::TYPE_HSET;
+    protected const TYPE_SET = 'SET';
+
+    protected const MODEL_TYPE = self::TYPE_HASH;
 
     public function newEloquentBuilder($query): Builder
     {

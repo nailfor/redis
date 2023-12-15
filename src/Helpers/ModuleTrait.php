@@ -5,11 +5,11 @@ use nailfor\Redis\ClassIterator;
 
 trait ModuleTrait
 {
-    public $modules = [];
+    public static array $modules = [];
     
     public function __call($method, $parameters)
     {
-        $module = $this->modules[$method] ?? '';
+        $module = static::$modules[$method] ?? '';
         if ($module && method_exists($module, 'handle')) {
             return $module->handle($parameters);
         }
@@ -19,16 +19,20 @@ trait ModuleTrait
     
     protected function init(string $interface, mixed $param): void
     {
+        if (static::$modules) {
+            return;
+        }
+
         $iterator = new ClassIterator($interface);
         foreach ($iterator->handle() as $method => $class) {
-            $this->modules[$method] = new $class($param);
+            static::$modules[$method] = new $class($param);
         }
     }
     
     protected function getModules($method): array
     {
         $res = [];
-        foreach($this->modules as $module) {
+        foreach(static::$modules as $module) {
             if (method_exists($module, $method)) {
                 $res[] = $module;
             }

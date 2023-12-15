@@ -10,7 +10,7 @@ class Client
 {
     protected PredisConnection $client;
 
-    protected array $commands = [];
+    public static array $commands = [];
     
     public function __construct()
     {
@@ -27,13 +27,13 @@ class Client
         foreach ($iterator->handle() as $method => $class)
         {
             $factory->define($method, $class);
-            $this->commands[$method] = new $class();
+            static::$commands[$method] = new $class();
         }
     }
 
     public function __call($name, $params)
     {
-        $class = $this->commands[$name] ?? 0;
+        $class = static::$commands[$name] ?? 0;
         if ($class && method_exists($class, 'before')) {
             $params = $class->before(...$params);
         }

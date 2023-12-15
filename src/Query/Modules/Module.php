@@ -44,7 +44,7 @@ abstract class Module implements ModuleInterface
         $type = $this->builder->type;
         $cmd = "{$type}{$this->command}";
         if (!$factory->supports($cmd)) {
-            throw new UnsupportedException($type);
+            throw new UnsupportedException($cmd);
         }
 
         return $client->{$cmd}($this->builder, ...$data);

@@ -10,7 +10,6 @@ All models are inherited from Illuminate\Database\Eloquent\Model so most methods
 | Method | Is Working |
 | --- | :---: |
 | CURD | Yes |
-| MODEL TYPE | HSET |
 | Condition Select | id only |
 | filling | yes |
 | Limit | Not yet |
@@ -21,13 +20,19 @@ All models are inherited from Illuminate\Database\Eloquent\Model so most methods
 | Update a lot of data | Not yet |
 | Relationship | Yes |
 
+### Key Supports
+| Model type | Constant |
+| --- | :---: |
+| HASH | TYPE_HASH |
+| SET | TYPE_SET |
+
 ### Key structure
 
 Sample key structure for a Redis model in Laravel:
 
-`{model_table_name|class_name}:{primary_key}`
+`{config.redis.options.prefix}{model_table_name|class_name}:{primary_key}`
 
-- model_table_name: The name of the current model table which set like  'protected $table = "name"'.
+- model_table_name: The name of the current model table which set like 'protected $table = "name"'.
 - primary_key: The primary key of the model (id).
 
 Example key:
