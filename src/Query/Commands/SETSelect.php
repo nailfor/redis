@@ -24,7 +24,7 @@ class SETSelect extends AbstractCommand
 
             for idx,key in ipairs(keys) do
                 local _ = cmd('GET', key)
-                if #_ > 0 then
+                if _ then
                     results[#results + 1] = _
                 end
             end
