@@ -11,13 +11,14 @@ All models are inherited from Illuminate\Database\Eloquent\Model so most methods
 | --- | :---: |
 | CURD | Yes |
 | Condition Select | id only |
-| filling | yes |
+| filling | Yes |
 | Limit | Not yet |
 | Chunking | Not yet |
 | Transaction | Not yet |
 | Insert a lot of data | Not yet |
 | Delete a lot of data | Not yet |
 | Update a lot of data | Not yet |
+| Expire | Yes |
 | Relationship | Yes |
 
 ### Key Supports
@@ -230,6 +231,20 @@ Or, because we set $fillable
         $brand->save();
     }
 
+```
+
+### Expire and TTL
+```
+    $db = new RdModel;
+    $db->id = 'key';
+    $db->save();
+
+    $timeInSeconds = 5;
+    $db->expire($timeInSeconds);
+
+    $db = new RdModel;
+    $db->id = 'key';
+    $ttl = $db->ttl(); //this op working w/o save model
 ```
 
 

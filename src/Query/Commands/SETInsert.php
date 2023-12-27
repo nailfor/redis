@@ -6,6 +6,8 @@ use nailfor\Redis\Query\QueryBuilder;
 
 class SETInsert extends AbstractCommand
 {
+    protected string $id;
+
     public function getKeysCount()
     {
         return 1;
@@ -25,11 +27,16 @@ class SETInsert extends AbstractCommand
 
     public function before(QueryBuilder $builder, $values): array
     {
-        $id = $values['id'];
+        $this->id = $values['id'];
 
         return [
-            "{$builder->from}:$id",     //KEYS
-            json_encode($values),       //ARGV
+            "{$builder->from}:{$this->id}",     //KEYS
+            json_encode($values),               //ARGV
         ];
+    }
+
+    public function after(string $key): string
+    {
+        return $this->id;
     }
 }

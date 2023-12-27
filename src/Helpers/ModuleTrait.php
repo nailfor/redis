@@ -9,7 +9,7 @@ trait ModuleTrait
     
     public function __call($method, $parameters)
     {
-        $module = static::$modules[$method] ?? '';
+        $module = static::$modules[strtolower($method)] ?? '';
         if ($module && method_exists($module, 'handle')) {
             return $module->handle($parameters);
         }
@@ -20,12 +20,15 @@ trait ModuleTrait
     protected function init(string $interface, mixed $param): void
     {
         if (static::$modules) {
+            foreach (static::$modules as $module) {
+                $module->init($param);
+            }
             return;
         }
 
         $iterator = new ClassIterator($interface);
         foreach ($iterator->handle() as $method => $class) {
-            static::$modules[$method] = new $class($param);
+            static::$modules[strtolower($method)] = new $class($param);
         }
     }
     
