@@ -24,6 +24,6 @@ class Builder extends EloquentBuilder
         $key = $this->model->getKeyName();
         $values[$key] = $att[$key] ?? 0;
         
-        return $query->update($values);
+        return $query->insert($values);
     }
 }

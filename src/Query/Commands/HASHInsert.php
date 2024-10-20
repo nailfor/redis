@@ -33,7 +33,7 @@ class HASHInsert extends AbstractCommand
 
         return [
             "{$builder->from}:{$this->id}",     //KEYS
-            json_encode($values),               //ARGV
+            json_encode($values),        //ARGV
         ];
     }
 

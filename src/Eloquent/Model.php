@@ -27,4 +27,9 @@ class Model extends BaseModel
     {
         return new $class;
     }
+
+    protected function getDirtyForUpdate()
+    {
+        return $this->attributes;
+    }
 }
