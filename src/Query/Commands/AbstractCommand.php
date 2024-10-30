@@ -37,4 +37,50 @@ abstract class AbstractCommand extends ScriptCommand implements CommandsInterfac
     {
         return FilterFactory::create($from, $conditions);
     }
+
+    protected function getKeysCondition(): string
+    {
+        return <<<LUA
+            keys = ARGV
+        LUA;
+    }
+
+    protected function getObject(): string
+    {
+        return <<<LUA
+            local obj = {}
+        LUA;
+    }
+
+    protected function getWhereOperator(): string
+    {
+        return <<<LUA
+            if (
+                (ok == false and where.boolean == 'and')
+                or (ok == true and where.boolean == 'or')
+            ) then
+            elseif (where.operator == '=') then
+                ok = column == tostring(where.value)
+            elseif (where.operator == '<') then
+                ok = column < tostring(where.value)
+            elseif (where.operator == '>') then
+                ok = column > tostring(where.value)
+            elseif (where.operator == '<=') then
+                ok = column <= tostring(where.value)
+            elseif (where.operator == '>=') then
+                ok = column >= tostring(where.value)
+            end
+        LUA;
+    }
+
+    protected function getWhereInOperator(): string
+    {
+        return <<<LUA
+            for _,value in ipairs(where.values) do
+                if (column == tostring(value)) then
+                    ok = true
+                end
+            end
+        LUA;
+    }
 }

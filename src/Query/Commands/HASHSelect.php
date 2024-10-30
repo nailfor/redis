@@ -2,10 +2,10 @@
 
 namespace nailfor\Redis\Query\Commands;
 
-use nailfor\Redis\Query\QueryBuilder;
-
 class HASHSelect extends AbstractCommand
 {
+    use Traits\HashTrait;
+
     public function getKeysCount()
     {
         return 1;
@@ -13,11 +13,14 @@ class HASHSelect extends AbstractCommand
 
     public function getScript()
     {
+        $keys = $this->getKeysCondition();
+
         return <<<LUA
-            local cmd, keys, results = redis.call, {}, {}
+            local cmd, keys = redis.call, {}
+            local result = {}
 
             if #ARGV > 0 then
-                keys = ARGV
+                {$keys}
             else
                 keys = cmd("KEYS", KEYS[1])
             end
@@ -25,17 +28,12 @@ class HASHSelect extends AbstractCommand
             for idx,key in ipairs(keys) do
                 local _ = cmd('HGETALL', key)
                 if #_ > 0 then
-                    results[#results + 1] = _
+                    result[#result + 1] = _
                 end
             end
             
-            return results
+            return result
         LUA;
-    }
-
-    public function before(QueryBuilder $builder): array
-    {
-        return $this->getArgs($builder);
     }
 
     public function after(array $data): array

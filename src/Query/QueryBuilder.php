@@ -59,4 +59,9 @@ class QueryBuilder extends Builder
     {
         return $this->InsertPlugin($values);
     }
+
+    public function delete($id = null)
+    {
+        return $this->DeletePlugin($id);
+    }
 }

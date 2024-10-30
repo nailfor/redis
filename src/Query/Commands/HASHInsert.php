@@ -37,7 +37,7 @@ class HASHInsert extends AbstractCommand
         ];
     }
 
-    public function after(string $key): string
+    public function after(): string
     {
         return $this->id;
     }

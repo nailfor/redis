@@ -10,7 +10,7 @@ All models are inherited from Illuminate\Database\Eloquent\Model so most methods
 | Method | Is Working |
 | --- | :---: |
 | CURD | Yes |
-| Condition Select | id only |
+| Condition Select | yes(HASH) |
 | filling | Yes |
 | Limit | Not yet |
 | Chunking | Not yet |
@@ -201,8 +201,10 @@ Or, because we set $fillable
 ```php
     $product = RdbProduct::find(2);
     //or
-    $product = RdbProduct::where('id', 2)->first();
-
+    $product = RdbProduct::where('id', 2)
+        ->whereIn('brand_id', [1,2,3])
+        ->orWhere('article', 'SV-FX-02')
+        ->first();
 ```
 
 ```php
@@ -232,6 +234,27 @@ Or, because we set $fillable
     }
 
 ```
+
+### Delete Models
+```php
+    //truncate all product:*
+    RdbProduct::delete();
+
+    //deleting by condition
+    RdbProduct::where('brand_id', 4)->delete();
+    RdbProduct::where('id', 2)
+        ->orWhere('brand_id', 5)
+        ->delete();
+    RdbProduct::where('article', 'VGX-01')
+        ->whereIn('brand_id', [1,2,4])
+        ->delete()
+    ;
+
+    //deleting single model
+    $model = RdbProduct::find(1);
+    $model->delete();
+```
+
 
 ### Expire and TTL
 ```
