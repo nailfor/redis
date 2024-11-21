@@ -59,6 +59,8 @@ abstract class AbstractCommand extends ScriptCommand implements CommandsInterfac
                 (ok == false and where.boolean == 'and')
                 or (ok == true and where.boolean == 'or')
             ) then
+            elseif (where.type == 'Null') then
+                ok = column == nil
             elseif (where.operator == '=') then
                 ok = column == tostring(where.value)
             elseif (where.operator == '<') then
